@@ -1,18 +1,18 @@
-import { useWindowSize } from 'usehooks-ts'
-import { BREAKPOINT } from '../constants/breakpoint'
+import { useWindowSize } from 'usehooks-ts';
+import { BREAKPOINT } from '../constants/breakpoint';
 
 const useScreenSize = () => {
-  const { width } = useWindowSize({ debounceDelay: 200 })
+  const { width } = useWindowSize({ debounceDelay: 200 });
 
   if (width <= BREAKPOINT.sm) {
-    return 'mobile'
+    return 'mobile';
   }
 
   if (width <= BREAKPOINT.lg) {
-    return 'tablet'
+    return 'tablet';
   }
 
-  return 'pc'
-}
+  return 'pc';
+};
 
-export default useScreenSize
+export default useScreenSize;

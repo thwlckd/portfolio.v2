@@ -1,11 +1,11 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 
 const GlobalNavigation = () => {
-  return <Nav>nav</Nav>
-}
+  return <Nav>nav</Nav>;
+};
 
-export default GlobalNavigation
+export default GlobalNavigation;
 
 const Nav = styled.nav({
   position: 'fixed',
-})
+});

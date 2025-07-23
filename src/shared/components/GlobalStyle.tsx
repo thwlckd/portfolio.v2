@@ -1,10 +1,10 @@
-import { css, Global } from '@emotion/react'
+import { css, Global } from '@emotion/react';
 
 const GlobalStyle = () => {
-  return <Global styles={Styles} />
-}
+  return <Global styles={Styles} />;
+};
 
-export default GlobalStyle
+export default GlobalStyle;
 
 const Styles = css`
   @font-face {
@@ -15,4 +15,4 @@ const Styles = css`
   * {
     font-family: Moneygraphy-Pixel, Arial, Helvetica, sans-serif;
   }
-`
+`;

@@ -1,6 +1,6 @@
-import { Canvas } from '@react-three/fiber'
-import Dice from './Dice'
-import { OrbitControls } from '@react-three/drei'
+import { Canvas } from '@react-three/fiber';
+import Dice from './Dice';
+import { OrbitControls } from '@react-three/drei';
 
 const ThreeDice = () => {
   return (
@@ -13,7 +13,7 @@ const ThreeDice = () => {
         <Dice />
       </Canvas>
     </div>
-  )
-}
+  );
+};
 
-export default ThreeDice
+export default ThreeDice;

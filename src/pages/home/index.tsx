@@ -1,7 +1,7 @@
-import ThreeDice from './components/three/ThreeDice'
+import ThreeDice from './components/three/ThreeDice';
 
 const HomePage = () => {
-  return <ThreeDice />
-}
+  return <ThreeDice />;
+};
 
-export default HomePage
+export default HomePage;

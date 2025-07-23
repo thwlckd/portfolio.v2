@@ -1,13 +1,13 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 
 const GlobalFooter = () => {
-  return <Footer>footer</Footer>
-}
+  return <Footer>footer</Footer>;
+};
 
-export default GlobalFooter
+export default GlobalFooter;
 
 const Footer = styled.footer({
   position: 'fixed',
   bottom: 0,
   right: 0,
-})
+});
