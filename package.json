@@ -13,11 +13,18 @@
     "@emotion/css": "^11.13.5",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+    "@react-spring/three": "^10.0.1",
+    "@react-three/drei": "^10.5.1",
+    "@react-three/fiber": "^9.2.0",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
+    "@types/three": "^0.178.1",
+    "motion": "^12.23.6",
     "next": "15.4.2",
     "normalize.css": "^8.0.1",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "three": "^0.178.0",
+    "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
     "@emotion/babel-plugin": "^11.13.5",
