@@ -1,5 +1,5 @@
 import { animated, easings, useSpring } from '@react-spring/three';
-import { Html, Text3D } from '@react-three/drei';
+import { Text3D } from '@react-three/drei';
 import { ThreeEvent } from '@react-three/fiber';
 import { useEffect, useState } from 'react';
 import { FrontSide } from 'three';
@@ -50,11 +50,6 @@ const DiceFace = ({ route, textColor, position, rotation, onClick }: Props) => {
         <planeGeometry args={[1, 1]} />
         <meshBasicMaterial opacity={0} transparent />
       </mesh>
-      <Html>
-        <a href={route} css={{ opacity: 0, pointerEvents: 'none' }}>
-          {route}
-        </a>
-      </Html>
 
       <AnimatedText3D
         ref={(el) => {

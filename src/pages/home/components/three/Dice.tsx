@@ -1,7 +1,7 @@
-import { Children, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { a, easings, useSpring } from '@react-spring/three';
 import { RoundedBox } from '@react-three/drei';
-import { Group } from 'three';
+import { Group, Mesh } from 'three';
 import DiceFace from './DiceFace';
 import useScreenSize from '@/shared/hooks/useScreenSize';
 
@@ -20,7 +20,8 @@ const DICE_FACES: Array<{
 ];
 
 const Dice = () => {
-  const boxRef = useRef<Group>(null);
+  const diceRef = useRef<Group>(null);
+  const boxRef = useRef<Mesh>(null);
   const screen = useScreenSize();
   const scale = screen === 'mobile' ? 1 : screen === 'tablet' ? 1.3 : 1.8;
   const [spring, api] = useSpring(() => ({
@@ -30,42 +31,34 @@ const Dice = () => {
 
   useEffect(
     function revealAnimation() {
-      if (!boxRef.current) {
+      if (!diceRef.current) {
         return;
       }
 
       api.start({ rotation: [Math.PI * 2, Math.PI * 2, Math.PI * 2] });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [api, boxRef.current],
+    [api, diceRef.current],
   );
 
   return (
-    <a.group ref={boxRef} scale={scale} rotation={spring.rotation as unknown as [number, number, number]}>
-      <RoundedBox args={[1, 1, 1]} radius={0.1} smoothness={4} castShadow receiveShadow>
-        <meshPhysicalMaterial
-          color="#2600ff"
-          transmission={0.7}
-          thickness={100}
-          clearcoat={1}
-          opacity={0.1}
-          transparent
-        />
+    <a.group ref={diceRef} scale={scale} rotation={spring.rotation as unknown as [number, number, number]}>
+      <RoundedBox ref={boxRef} args={[1, 1, 1]} radius={0.1} smoothness={4} castShadow receiveShadow>
+        <meshPhysicalMaterial color="#2600ff" transmission={0.7} clearcoat={1} opacity={0.1} transparent />
       </RoundedBox>
-      {Children.toArray(
-        DICE_FACES.map(({ route, textColor, position, rotation }) => (
-          <DiceFace
-            route={route}
-            textColor={textColor}
-            position={position}
-            rotation={rotation}
-            onClick={(e) => {
-              e.stopPropagation();
-              console.log(route);
-            }}
-          />
-        )),
-      )}
+      {DICE_FACES.map(({ route, textColor, position, rotation }, index) => (
+        <DiceFace
+          key={index}
+          route={route}
+          textColor={textColor}
+          position={position}
+          rotation={rotation}
+          onClick={(e) => {
+            e.stopPropagation();
+            console.log(route);
+          }}
+        />
+      ))}
     </a.group>
   );
 };
