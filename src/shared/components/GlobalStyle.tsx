@@ -12,7 +12,21 @@ const Styles = css`
     src: url('/fonts/Moneygraphy-Pixel.woff2') format('woff2');
   }
 
+  @font-face {
+    font-family: 'Moneygraphy-Rounded';
+    src: url('/fonts/Moneygraphy-Rounded.woff2') format('woff2');
+  }
+
   * {
-    font-family: Moneygraphy-Pixel, Arial, Helvetica, sans-serif;
+    font-family: Moneygraphy-Rounded, Moneygraphy-Pixel, Arial, Helvetica, sans-serif;
+  }
+
+  a {
+    text-decoration: none;
+    color: currentColor;
+  }
+
+  ul {
+    padding: 0;
   }
 `;

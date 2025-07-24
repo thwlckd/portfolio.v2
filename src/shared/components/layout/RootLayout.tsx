@@ -6,26 +6,29 @@ import ThreeDice from './three/ThreeDice';
 import { useRouter } from 'next/router';
 import { useSetAtom } from 'jotai';
 import { layoutFilteredAtom } from '@/shared/atoms/layoutFilteredAtom';
+import { motion } from 'motion/react';
 
 const RootLayout = ({ children }: PropsWithChildren) => {
-  const isMainPage = useRouter().pathname === '/';
+  const pathname = useRouter().pathname;
+  const isMainPage = pathname === '/';
   const setLayoutFiltered = useSetAtom(layoutFilteredAtom);
 
-  useEffect(() => {
-    const shouldFiltered = isMainPage ? false : true;
+  useEffect(
+    function routeAdaptiveFilter() {
+      const shouldFiltered = isMainPage ? false : true;
 
-    setLayoutFiltered(shouldFiltered);
-  }, [isMainPage]);
+      setLayoutFiltered(shouldFiltered);
+    },
+    [isMainPage],
+  );
 
   return (
     <Layout>
-      <GlobalNavigation
-        toggleMenu={() => {
-          setLayoutFiltered((prev) => !prev);
-        }}
-      />
+      <GlobalNavigation />
       <ThreeDice />
-      <MainWrapper>{children}</MainWrapper>
+      <MainWrapper key={pathname} initial={{ top: 200, opacity: 0 }} animate={{ top: 0, opacity: 1 }}>
+        {children}
+      </MainWrapper>
       <GlobalFooter />
     </Layout>
   );
@@ -39,10 +42,10 @@ const Layout = styled.div({
   minHeight: '100vh',
 });
 
-const MainWrapper = styled.div({
+const MainWrapper = styled(motion.main)({
   position: 'relative',
   marginInline: 'auto',
   padding: '200px 40px 0',
-  minHeight: '100vh',
+  minHeight: 'calc(100vh - 200px)',
   maxWidth: 1200,
 });
