@@ -4,6 +4,9 @@ import { RoundedBox } from '@react-three/drei';
 import { Group, Mesh } from 'three';
 import DiceFace from './DiceFace';
 import useScreenSize from '@/shared/hooks/useScreenSize';
+import { useRouter } from 'next/router';
+import { layoutFilteredAtom } from '@/shared/atoms/layoutFilteredAtom';
+import { useSetAtom } from 'jotai';
 
 const DICE_FACES: Array<{
   route: string;
@@ -20,6 +23,8 @@ const DICE_FACES: Array<{
 ];
 
 const Dice = () => {
+  const router = useRouter();
+  const setLayoutFiltered = useSetAtom(layoutFilteredAtom);
   const diceRef = useRef<Group>(null);
   const boxRef = useRef<Mesh>(null);
   const screen = useScreenSize();
@@ -55,7 +60,8 @@ const Dice = () => {
           rotation={rotation}
           onClick={(e) => {
             e.stopPropagation();
-            console.log(route);
+            setLayoutFiltered(true);
+            router.push(route);
           }}
         />
       ))}
