@@ -3,17 +3,21 @@ import Dice from './Dice';
 import { OrbitControls } from '@react-three/drei';
 import { useAtomValue } from 'jotai';
 import dynamic from 'next/dynamic';
-import { motion } from 'motion/react';
+import { delay, motion } from 'motion/react';
 import { layoutFilteredAtom } from '@/shared/atoms/layoutFilteredAtom';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useEffect, useState } from 'react';
 const GestureGuide = dynamic(() => import('./GestureGuide'), { ssr: false });
 
 const ThreeDice = ({ children }: PropsWithChildren) => {
   const layoutFiltered = useAtomValue(layoutFilteredAtom);
+  const threeZIndex = useDelayedDiceZIndex();
 
   return (
     <motion.div
-      variants={{ filter: { zIndex: -10, filter: 'blur(10px)' }, clear: { zIndex: 10 } }}
+      variants={{
+        filter: { filter: 'blur(10px)' },
+        clear: {},
+      }}
       animate={layoutFiltered ? 'filter' : 'clear'}
       style={{
         position: 'fixed',
@@ -21,6 +25,7 @@ const ThreeDice = ({ children }: PropsWithChildren) => {
         left: 0,
         width: '100vw',
         height: '100vh',
+        zIndex: threeZIndex,
       }}
     >
       <Canvas
@@ -43,3 +48,18 @@ const ThreeDice = ({ children }: PropsWithChildren) => {
   );
 };
 export default ThreeDice;
+
+const useDelayedDiceZIndex = () => {
+  const [threeZIndex, setThreeZIndex] = useState(10);
+  const layoutFiltered = useAtomValue(layoutFilteredAtom);
+
+  useEffect(() => {
+    const nextThreeZIndex = layoutFiltered ? -10 : 10;
+
+    delay(() => {
+      setThreeZIndex(nextThreeZIndex);
+    }, 500);
+  }, [setThreeZIndex, layoutFiltered]);
+
+  return threeZIndex;
+};

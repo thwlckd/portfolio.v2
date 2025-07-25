@@ -6,11 +6,11 @@ import ThreeDice from './three/ThreeDice';
 import { useRouter } from 'next/router';
 import { useSetAtom } from 'jotai';
 import { layoutFilteredAtom } from '@/shared/atoms/layoutFilteredAtom';
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 
 const RootLayout = ({ children }: PropsWithChildren) => {
-  const pathname = useRouter().pathname;
-  const isMainPage = pathname === '/';
+  const router = useRouter();
+  const isMainPage = router.pathname === '/';
   const setLayoutFiltered = useSetAtom(layoutFilteredAtom);
 
   useEffect(
@@ -26,9 +26,16 @@ const RootLayout = ({ children }: PropsWithChildren) => {
     <Layout>
       <GlobalNavigation />
       <ThreeDice />
-      <MainWrapper key={pathname} initial={{ top: 200, opacity: 0 }} animate={{ top: 0, opacity: 1 }}>
-        {children}
-      </MainWrapper>
+      <AnimatePresence>
+        <MainWrapper
+          key={router.asPath}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, transition: { delay: 0.5 } }}
+          exit={{ opacity: 0 }}
+        >
+          {children}
+        </MainWrapper>
+      </AnimatePresence>
       <GlobalFooter />
     </Layout>
   );

@@ -1,9 +1,7 @@
-import styled from '@emotion/styled';
+import ThreeGlass from './components/three/ThreeGlass';
 
 const ContactPage = () => {
-  return <Wrapper>ContactPage</Wrapper>;
+  return <ThreeGlass />;
 };
 
 export default ContactPage;
-
-const Wrapper = styled.div({});
