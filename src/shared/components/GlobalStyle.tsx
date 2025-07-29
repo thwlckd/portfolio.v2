@@ -26,6 +26,12 @@ const Styles = css`
     color: currentColor;
   }
 
+  button {
+    border: none;
+    padding: 0;
+    background: transparent;
+  }
+
   ul {
     padding: 0;
   }

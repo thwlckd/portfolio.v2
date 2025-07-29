@@ -6,7 +6,6 @@ const useRotateByPointer = <T extends Object3D>() => {
   const ref = useRef<T>(null);
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
 
-  // 📌 window에서 직접 pointer 좌표 추적
   useEffect(() => {
     const handlePointerMove = (e: PointerEvent) => {
       const x = (e.clientX / window.innerWidth) * 2 - 1; // NOTE: three pointer 범위 -> -1 ~ 1
@@ -22,9 +21,11 @@ const useRotateByPointer = <T extends Object3D>() => {
     };
   }, []);
 
-  // 매 프레임마다 유리 회전
   useFrame(() => {
-    if (!ref.current) return;
+    if (!ref.current) {
+      return;
+    }
+
     ref.current.rotation.y = MathUtils.lerp(ref.current.rotation.y, mouse.x * 3.2, 0.2);
     ref.current.rotation.x = MathUtils.lerp(ref.current.rotation.x, -mouse.y * 0.5, 0.2);
   });

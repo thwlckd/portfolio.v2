@@ -1,42 +1,59 @@
 import { Html, useTexture } from '@react-three/drei';
 import useRotateByPointer from './useRotateByPointer';
+import Flex from '@/shared/components/Flex';
+import styled from '@emotion/styled';
+import RollingButton from '@/shared/components/RollingButton';
+import { copyClipboard } from '@/shared/utils/copyClipboard';
 
 const Glass = () => {
-  const texture = useTexture('/images/imsi1.jpeg');
+  const texture = useTexture('/images/contact-bg.png');
   const { ref } = useRotateByPointer();
 
   return (
     <group ref={ref}>
       <mesh>
-        <boxGeometry args={[3, 5, 0.05]} />
+        <boxGeometry args={[4, 6, 0.05]} />
         <meshPhysicalMaterial
           map={texture}
-          transparent
-          opacity={0.7}
+          opacity={0.6}
           roughness={0.2}
-          metalness={0.1}
+          metalness={0.5}
           transmission={1}
-          thickness={0.2}
-          ior={1.5}
+          ior={2}
           depthWrite={false}
         />
       </mesh>
 
-      {/* 앞면 Html */}
-      <Html position={[0, 0, 0.03]} transform occlude zIndexRange={[0, 0]}>
-        <div style={{ padding: 8, borderRadius: 8 }}>
-          <strong>Front</strong> Side
-        </div>
-      </Html>
-
-      {/* 뒷면 Html */}
-      <Html position={[0, 0, -0.03]} rotation={[0, Math.PI, 0]} transform occlude zIndexRange={[0, 0]}>
-        <div style={{ padding: 8, borderRadius: 8, color: '#fff' }}>
-          <strong>Back</strong> Side
-        </div>
+      <Html
+        position={[0, 0, 0.03]}
+        transform
+        zIndexRange={[0, 0]}
+        css={{ width: 150, aspectRatio: 4 / 6, fontSize: 8 }}
+      >
+        <Flex direction="column" justify="center" gap={10} css={{ paddingInline: 30, height: '100%' }}>
+          <Flex direction="column" gap={1}>
+            <Head>E-Mail</Head>
+            <RollingButton
+              default="thwlckd@gmail.com"
+              hover="Click to Copy"
+              click="Copied!"
+              onClick={() => {
+                copyClipboard('thwlckd@gmail.com');
+              }}
+            />
+          </Flex>
+          <Flex direction="column" gap={1}>
+            <Head>Location</Head>
+            <div>Seoul</div>
+          </Flex>
+        </Flex>
       </Html>
     </group>
   );
 };
 
 export default Glass;
+
+const Head = styled.h2({
+  fontSize: 4,
+});

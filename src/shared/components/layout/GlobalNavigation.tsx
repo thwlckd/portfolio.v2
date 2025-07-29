@@ -1,14 +1,17 @@
 import { MQ } from '@/shared/constants/mediaQuery';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { AnimatePresence, motion, MotionStyle } from 'motion/react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 interface Props {}
 
 const GlobalNavigation = ({}: Props) => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const router = useRouter();
+  const currentPage = router.pathname.split('/')[1] || 'home';
 
   return (
     <>
@@ -26,6 +29,12 @@ const GlobalNavigation = ({}: Props) => {
             setIsOpenMenu((prev) => !prev);
           }
         }}
+        onMouseEnter={() => {
+          setIsHovered(true);
+        }}
+        onMouseLeave={() => {
+          setIsHovered(false);
+        }}
       >
         <Link
           href="/"
@@ -38,7 +47,16 @@ const GlobalNavigation = ({}: Props) => {
         >
           <img src="/svg/hyub.svg" css={{ height: '100%' }} alt="hyub 로고" />
         </Link>
-        <p>{isOpenMenu ? 'CLOSE' : 'MENU'}</p>
+        <motion.p
+          key={String(isHovered)}
+          initial={{ top: 20, opacity: 0 }}
+          animate={{ top: 0, opacity: 1 }}
+          exit={{ top: -20, opacity: 0 }}
+          style={{ position: 'absolute', right: 26, transform: 'translateY(50%)' }}
+          transition={{ ease: 'easeInOut' }}
+        >
+          {isHovered ? (isOpenMenu ? 'CLOSE' : 'MENU') : currentPage.toUpperCase()}
+        </motion.p>
       </Nav>
       <AnimatePresence>
         {isOpenMenu && (
@@ -105,19 +123,19 @@ const DropdownMenu = styled(motion.ul)({
   justifyContent: 'center',
   gap: 10,
   margin: 0,
+  paddingBlock: 50,
   paddingInline: 26,
   width: 400,
-  height: '50vh',
+  // height: '50vh',
   borderRadius: 16,
   backgroundColor: 'rgba(30, 30, 30, 0.3)',
   backdropFilter: 'blur(12px)',
   listStyle: 'none',
-  fontSize: 50,
+  fontSize: 30,
 
   [MQ.mobile]: {
     paddingInline: 12,
     width: 'calc(100vw - 48px)',
-    fontSize: 40,
   },
 
   li: {
@@ -150,12 +168,12 @@ const popupMenuStyle: MotionStyle = {
 
 const Stretched = styled.span({
   display: 'inline-block',
-  marginInline: 10,
+  marginInline: 5,
   transform: 'scaleX(1.5)',
   transition: 'transform 0.2s ease, margin 0.15s ease',
 
   [MQ.mobile]: {
-    marginInline: 6,
+    marginInline: 4,
   },
 });
 
