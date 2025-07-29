@@ -12,6 +12,7 @@ const GlobalNavigation = ({}: Props) => {
   const [isHovered, setIsHovered] = useState(false);
   const router = useRouter();
   const currentPage = router.pathname.split('/')[1] || 'home';
+  const rollingText = isHovered ? (isOpenMenu ? 'close' : 'menu') : currentPage;
 
   return (
     <>
@@ -47,16 +48,19 @@ const GlobalNavigation = ({}: Props) => {
         >
           <img src="/svg/hyub.svg" css={{ height: '100%' }} alt="hyub 로고" />
         </Link>
-        <motion.p
-          key={String(isHovered)}
-          initial={{ top: 20, opacity: 0 }}
-          animate={{ top: 0, opacity: 1 }}
-          exit={{ top: -20, opacity: 0 }}
-          style={{ position: 'absolute', right: 26, transform: 'translateY(50%)' }}
-          transition={{ ease: 'easeInOut' }}
-        >
-          {isHovered ? (isOpenMenu ? 'CLOSE' : 'MENU') : currentPage.toUpperCase()}
-        </motion.p>
+        <div css={{ overflow: 'hidden', position: 'relative', height: '1.5em', flex: 1 }}>
+          <AnimatePresence>
+            <motion.p
+              key={rollingText}
+              initial={{ y: '2em', opacity: 0 }}
+              animate={{ y: '-0.75em', opacity: 1 }}
+              exit={{ y: '-2em', opacity: 0 }}
+              style={{ position: 'absolute', right: 0 }}
+            >
+              {rollingText.toUpperCase()}
+            </motion.p>
+          </AnimatePresence>
+        </div>
       </Nav>
       <AnimatePresence>
         {isOpenMenu && (
@@ -66,6 +70,7 @@ const GlobalNavigation = ({}: Props) => {
             animate="show"
             exit="hide"
             style={popupMenuStyle}
+            transition={{ ease: 'easeInOut' }}
           >
             <DropdownMenu onClick={() => setIsOpenMenu(false)}>
               {NAV_LINKS.map(({ href, label }) => (
@@ -126,7 +131,6 @@ const DropdownMenu = styled(motion.ul)({
   paddingBlock: 50,
   paddingInline: 26,
   width: 400,
-  // height: '50vh',
   borderRadius: 16,
   backgroundColor: 'rgba(30, 30, 30, 0.3)',
   backdropFilter: 'blur(12px)',

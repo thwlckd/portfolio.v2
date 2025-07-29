@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { ComponentProps, ReactNode, useState } from 'react';
 
 interface Props extends ComponentProps<typeof StyledButton> {
@@ -9,11 +9,11 @@ interface Props extends ComponentProps<typeof StyledButton> {
   onClick?: () => void;
 }
 
-const RollingButton = ({ default: defaultValue, hover, click, onClick }: Props) => {
-  const [showingValue, setShowingValue] = useState(defaultValue);
+const RollingButton = ({ default: defaultNode, hover, click, onClick }: Props) => {
+  const [showingValue, setShowingValue] = useState(defaultNode);
 
   const showDefaultValue = () => {
-    setShowingValue(defaultValue);
+    setShowingValue(defaultNode);
   };
 
   const showHoveredValue = () => {
@@ -38,14 +38,19 @@ const RollingButton = ({ default: defaultValue, hover, click, onClick }: Props) 
 
   return (
     <StyledButton onMouseEnter={showHoveredValue} onMouseLeave={showDefaultValue} onClick={showClickedValue}>
-      <motion.div
-        key={String(showingValue)}
-        initial={{ transform: 'translateY(20px)', opacity: 0 }}
-        animate={{ transform: 'translateY(0px)', opacity: 1 }}
-        exit={{ transform: 'translateY(-20px)', opacity: 0 }}
-      >
-        {showingValue}
-      </motion.div>
+      <RollingWrapper>
+        <AnimatePresence>
+          <motion.div
+            key={String(showingValue)}
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -20, opacity: 0 }}
+            style={{ position: 'absolute', top: 0, left: 0 }}
+          >
+            {showingValue}
+          </motion.div>
+        </AnimatePresence>
+      </RollingWrapper>
     </StyledButton>
   );
 };
@@ -57,4 +62,9 @@ const StyledButton = styled(motion.button)({
   lineHeight: '1.5em',
   textAlign: 'left',
   cursor: 'pointer',
+});
+
+const RollingWrapper = styled.div({
+  position: 'relative',
+  height: '1.5em',
 });
