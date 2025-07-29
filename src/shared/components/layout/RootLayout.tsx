@@ -54,5 +54,5 @@ const MainWrapper = styled(motion.main)({
   marginInline: 'auto',
   padding: '200px 40px 0',
   minHeight: 'calc(100vh - 200px)',
-  maxWidth: 1200,
+  maxWidth: 1000,
 });

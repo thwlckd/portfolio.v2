@@ -27,6 +27,7 @@
     "postprocessing": "^6.37.6",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-type-animation": "^3.2.0",
     "three": "^0.178.0",
     "usehooks-ts": "^3.1.1"
   },
