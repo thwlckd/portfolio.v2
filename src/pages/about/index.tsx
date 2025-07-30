@@ -2,11 +2,8 @@ import Flex from '@/shared/components/Flex';
 import { TypeAnimation } from 'react-type-animation';
 import PixelImage from './components/PixelImage';
 import { MQ } from '@/shared/constants/mediaQuery';
-import useScreenSize from '@/shared/hooks/useScreenSize';
 
 const AboutPage = () => {
-  const isMobile = useScreenSize() === 'mobile';
-
   return (
     <>
       <Flex

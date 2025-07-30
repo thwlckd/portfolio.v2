@@ -1,4 +1,4 @@
-import { HTMLAttributes, MouseEvent, useEffect, useRef } from 'react';
+import { HTMLAttributes, MouseEvent, useCallback, useEffect, useRef } from 'react';
 
 type Particle = {
   currentX: number;
@@ -26,103 +26,104 @@ const PixelImage = ({ src, pixel = { size: 15, gap: 3 }, ...rest }: Props) => {
   const particlesRef = useRef<Particle[]>([]);
   const animationRef = useRef<number | null>(null);
 
-  const createParticles = (image: HTMLImageElement) => {
-    const canvas = document.createElement('canvas');
-    const canvasCtx = canvas.getContext('2d');
+  const createParticles = useCallback(
+    (image: HTMLImageElement) => {
+      const canvas = document.createElement('canvas');
+      const canvasCtx = canvas.getContext('2d');
 
-    if (!canvasCtx) {
-      return [];
-    }
+      if (!canvasCtx) {
+        return [];
+      }
 
-    const imageWidth = image.width;
-    const imageHeight = image.height;
-    const particles: Particle[] = [];
+      const imageWidth = image.width;
+      const imageHeight = image.height;
+      const particles: Particle[] = [];
 
-    canvas.width = imageWidth;
-    canvas.height = imageHeight;
-    canvasCtx.drawImage(image, 0, 0, imageWidth, imageHeight);
+      canvas.width = imageWidth;
+      canvas.height = imageHeight;
+      canvasCtx.drawImage(image, 0, 0, imageWidth, imageHeight);
 
-    for (let y = 0; y < imageHeight; y += pixel.size) {
-      for (let x = 0; x < imageWidth; x += pixel.size) {
-        const imageData = canvasCtx.getImageData(x, y, pixel.size, pixel.size);
-        const data = imageData.data; // rgba 반복 [r1, g1, b1, a1, r2, g2, b2, a2, ...]
-        const accColorData = { r: 0, g: 0, b: 0, count: 0 };
+      for (let y = 0; y < imageHeight; y += pixel.size) {
+        for (let x = 0; x < imageWidth; x += pixel.size) {
+          const imageData = canvasCtx.getImageData(x, y, pixel.size, pixel.size);
+          const data = imageData.data; // rgba 반복 [r1, g1, b1, a1, r2, g2, b2, a2, ...]
+          const accColorData = { r: 0, g: 0, b: 0, count: 0 };
 
-        for (let i = 0; i < data.length; i += 4) {
-          // alpha값(0~255) 10보다 낮은 투명도면 픽셀 만들지 않음
-          if (data[i + 3] < 10) {
+          for (let i = 0; i < data.length; i += 4) {
+            // alpha값(0~255) 10보다 낮은 투명도면 픽셀 만들지 않음
+            if (data[i + 3] < 10) {
+              continue;
+            }
+
+            accColorData.r += data[i];
+            accColorData.g += data[i + 1];
+            accColorData.b += data[i + 2];
+            accColorData.count++;
+          }
+
+          if (accColorData.count === 0) {
             continue;
           }
 
-          accColorData.r += data[i];
-          accColorData.g += data[i + 1];
-          accColorData.b += data[i + 2];
-          accColorData.count++;
+          particles.push({
+            currentX: x,
+            currentY: y,
+            targetX: x,
+            targetY: y,
+            dx: 0,
+            dy: 0,
+            color: `rgb(${accColorData.r / accColorData.count}, ${accColorData.g / accColorData.count}, ${accColorData.b / accColorData.count})`, // 합계 rgb 평균값을 픽셀의 컬러로 사용
+            forcePower: Math.random() * 500 + 0.5,
+            radius: Math.random() * 60 + 20,
+          });
         }
-
-        if (accColorData.count === 0) {
-          continue;
-        }
-
-        particles.push({
-          currentX: x,
-          currentY: y,
-          targetX: x,
-          targetY: y,
-          dx: 0,
-          dy: 0,
-          color: `rgb(${accColorData.r / accColorData.count}, ${accColorData.g / accColorData.count}, ${accColorData.b / accColorData.count})`, // 합계 rgb 평균값을 픽셀의 컬러로 사용
-          forcePower: Math.random() * 500 + 0.5,
-          radius: Math.random() * 60 + 20,
-        });
-      }
-    }
-
-    return particles;
-  };
-
-  const updateParticles = (
-    canvasCtx: CanvasRenderingContext2D,
-    particles: Particle[],
-    mouseX: number,
-    mouseY: number,
-  ) => {
-    canvasCtx.clearRect(0, 0, canvasCtx.canvas.width, canvasCtx.canvas.height);
-
-    for (const p of particles) {
-      const dx = p.targetX - mouseX;
-      const dy = p.targetY - mouseY;
-      const dist = Math.sqrt(dx ** 2 + dy ** 2);
-      const stiffness = 0.05;
-      const friction = Math.random() * 0.6 + 0.3;
-      const offset = (pixel.size - pixel.gap) / 2;
-
-      if (dist < p.radius) {
-        const angle = Math.atan2(dy, dx);
-        const force = (p.radius - dist) / p.radius;
-        const push = force * p.forcePower;
-
-        p.dx += Math.cos(angle) * push;
-        p.dy += Math.sin(angle) * push;
       }
 
-      // 복원력
-      p.dx += (p.currentX - p.targetX) * stiffness;
-      p.dy += (p.currentY - p.targetY) * stiffness;
+      return particles;
+    },
+    [pixel.size],
+  );
 
-      // 감속
-      p.dx *= friction;
-      p.dy *= friction;
+  const updateParticles = useCallback(
+    (canvasCtx: CanvasRenderingContext2D, particles: Particle[], mouseX: number, mouseY: number) => {
+      canvasCtx.clearRect(0, 0, canvasCtx.canvas.width, canvasCtx.canvas.height);
 
-      p.targetX += p.dx;
-      p.targetY += p.dy;
+      for (const p of particles) {
+        const dx = p.targetX - mouseX;
+        const dy = p.targetY - mouseY;
+        const dist = Math.sqrt(dx ** 2 + dy ** 2);
+        const stiffness = 0.05;
+        const friction = Math.random() * 0.6 + 0.3;
+        const offset = (pixel.size - pixel.gap) / 2;
 
-      canvasCtx.fillStyle = p.color;
-      canvasCtx.beginPath();
-      canvasCtx.arc(p.targetX + offset, p.targetY + offset, offset, 0, Math.PI * 2);
-      canvasCtx.fill();
-    }
-  };
+        if (dist < p.radius) {
+          const angle = Math.atan2(dy, dx);
+          const force = (p.radius - dist) / p.radius;
+          const push = force * p.forcePower;
+
+          p.dx += Math.cos(angle) * push;
+          p.dy += Math.sin(angle) * push;
+        }
+
+        // 복원력
+        p.dx += (p.currentX - p.targetX) * stiffness;
+        p.dy += (p.currentY - p.targetY) * stiffness;
+
+        // 감속
+        p.dx *= friction;
+        p.dy *= friction;
+
+        p.targetX += p.dx;
+        p.targetY += p.dy;
+
+        canvasCtx.fillStyle = p.color;
+        canvasCtx.beginPath();
+        canvasCtx.arc(p.targetX + offset, p.targetY + offset, offset, 0, Math.PI * 2);
+        canvasCtx.fill();
+      }
+    },
+    [pixel.gap, pixel.size],
+  );
 
   useEffect(
     function pixelationRAF() {
@@ -158,7 +159,7 @@ const PixelImage = ({ src, pixel = { size: 15, gap: 3 }, ...rest }: Props) => {
         }
       };
     },
-    [src, pixel, pixel.size, pixel.gap],
+    [createParticles, src, updateParticles],
   );
 
   const handleMouseMove = (e: MouseEvent<HTMLCanvasElement>) => {

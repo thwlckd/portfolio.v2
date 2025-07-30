@@ -4,7 +4,6 @@ const Document = () => {
   return (
     <Html lang="ko">
       <Head>
-        <title>hyub2</title>
         <meta name="description" content="hyub2 archive" />
         <link rel="icon" href="/svg/hyub.svg" />
       </Head>

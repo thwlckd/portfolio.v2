@@ -5,10 +5,10 @@ import { useAtomValue } from 'jotai';
 import dynamic from 'next/dynamic';
 import { delay, motion } from 'motion/react';
 import { layoutFilteredAtom } from '@/shared/atoms/layoutFilteredAtom';
-import { PropsWithChildren, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 const GestureGuide = dynamic(() => import('./GestureGuide'), { ssr: false });
 
-const ThreeDice = ({ children }: PropsWithChildren) => {
+const ThreeDice = () => {
   const layoutFiltered = useAtomValue(layoutFilteredAtom);
   const threeZIndex = useDelayedDiceZIndex();
 

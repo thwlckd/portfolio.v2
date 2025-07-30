@@ -19,7 +19,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
 
       setLayoutFiltered(shouldFiltered);
     },
-    [isMainPage],
+    [isMainPage, setLayoutFiltered],
   );
 
   return (

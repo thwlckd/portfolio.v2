@@ -1,13 +1,12 @@
 import { MQ } from '@/shared/constants/mediaQuery';
 import styled from '@emotion/styled';
 import { AnimatePresence, motion, MotionStyle } from 'motion/react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-interface Props {}
-
-const GlobalNavigation = ({}: Props) => {
+const GlobalNavigation = () => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const router = useRouter();
@@ -44,9 +43,15 @@ const GlobalNavigation = ({}: Props) => {
             e.stopPropagation();
             setIsOpenMenu(false);
           }}
-          css={{ height: 30, transition: 'transform 0.2s ease', ':hover': { transform: 'rotateZ(-10deg)' } }}
+          css={{ height: 30, ':hover': { '> img': { transform: 'rotateZ(-10deg)' } } }}
         >
-          <img src="/svg/hyub.svg" css={{ height: '100%' }} alt="hyub 로고" />
+          <Image
+            src="/svg/hyub.svg"
+            width={70}
+            height={30}
+            alt="hyub 로고"
+            css={{ transition: 'transform 0.2s ease' }}
+          />
         </Link>
         <div css={{ overflow: 'hidden', position: 'relative', height: '1.5em', flex: 1 }}>
           <AnimatePresence>
