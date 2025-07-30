@@ -60,7 +60,7 @@ const GlobalNavigation = () => {
               initial={{ y: '2em', opacity: 0 }}
               animate={{ y: '-0.75em', opacity: 1 }}
               exit={{ y: '-2em', opacity: 0 }}
-              style={{ position: 'absolute', right: 0 }}
+              style={{ position: 'absolute', right: 0, userSelect: 'none' }}
             >
               {rollingText.toUpperCase()}
             </motion.p>

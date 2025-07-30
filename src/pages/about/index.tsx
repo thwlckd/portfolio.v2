@@ -2,8 +2,13 @@ import Flex from '@/shared/components/Flex';
 import { TypeAnimation } from 'react-type-animation';
 import PixelImage from './components/PixelImage';
 import { MQ } from '@/shared/constants/mediaQuery';
+import Delay from '@/shared/components/Delay';
+import useScreenSize from '@/shared/hooks/useScreenSize';
+import { motion } from 'motion/react';
 
 const AboutPage = () => {
+  const isMobile = useScreenSize() === 'mobile';
+
   return (
     <>
       <Flex
@@ -24,33 +29,30 @@ const AboutPage = () => {
         </div>
       </Flex>
 
-      <PixelImage
-        src="/images/about1.png"
-        css={{
-          position: 'absolute',
-          top: 50,
-          right: 50,
-          width: 300,
-          borderRadius: 30,
-          [MQ.mobile]: {
-            width: 150,
-          },
-        }}
-      />
-      <PixelImage
-        src="/images/about2.png"
-        pixel={{ size: 50, gap: 5 }}
-        css={{
-          position: 'absolute',
-          bottom: 0,
-          left: 50,
-          width: 300,
-          borderRadius: 10,
-          [MQ.mobile]: {
-            width: 150,
-          },
-        }}
-      />
+      <Delay ms={1000}>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 1 } }}>
+          <PixelImage
+            images={[
+              {
+                src: '/images/about1.png',
+                width: isMobile ? 150 : 300,
+                height: isMobile ? 200 : 400,
+                x: (canvasWidth) => canvasWidth * 0.65,
+                y: 30,
+              },
+              {
+                src: '/images/about2.png',
+                width: isMobile ? 200 : 300,
+                height: isMobile ? 200 : 300,
+                x: (canvasWidth) => canvasWidth * 0.1,
+                y: (canvasHeight) => canvasHeight - (isMobile ? 200 : 300),
+              },
+            ]}
+            pixelSize={6}
+            gap={2}
+          />
+        </motion.div>
+      </Delay>
     </>
   );
 };
