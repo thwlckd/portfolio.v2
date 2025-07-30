@@ -29,34 +29,28 @@ const AboutPage = () => {
 
       <PixelImage
         src="/images/about1.png"
-        scale={isMobile ? 0.5 : 1}
         css={{
           position: 'absolute',
           top: 50,
           right: 50,
           width: 300,
-          height: 400,
           borderRadius: 30,
           [MQ.mobile]: {
             width: 150,
-            height: 200,
           },
         }}
       />
       <PixelImage
         src="/images/about2.png"
-        scale={isMobile ? 0.3 : 0.5}
-        pixel={{ size: 30, gap: 5 }}
+        pixel={{ size: 50, gap: 5 }}
         css={{
           position: 'absolute',
           bottom: 0,
           left: 50,
           width: 300,
-          height: 300,
-          borderRadius: 30,
+          borderRadius: 10,
           [MQ.mobile]: {
             width: 150,
-            height: 150,
           },
         }}
       />
