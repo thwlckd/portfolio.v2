@@ -34,5 +34,7 @@ const Styles = css`
 
   ul {
     padding: 0;
+    margin: 0;
+    list-style: none;
   }
 `;

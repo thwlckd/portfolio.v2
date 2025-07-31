@@ -139,7 +139,6 @@ const DropdownMenu = styled(motion.ul)({
   borderRadius: 16,
   backgroundColor: 'rgba(30, 30, 30, 0.3)',
   backdropFilter: 'blur(12px)',
-  listStyle: 'none',
   fontSize: 30,
 
   [MQ.mobile]: {

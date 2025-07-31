@@ -48,8 +48,8 @@ const AboutPage = () => {
                 y: (canvasHeight) => canvasHeight - (isMobile ? 200 : 300),
               },
             ]}
-            pixelSize={6}
-            gap={2}
+            pixelSize={5}
+            gap={1}
           />
         </motion.div>
       </Delay>
