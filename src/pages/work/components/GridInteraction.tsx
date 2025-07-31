@@ -36,6 +36,7 @@ const Title = styled(motion.div)({
   left: '25%',
   fontSize: 32,
   paddingInline: 10,
+  pointerEvents: 'none',
 });
 
 const Date = styled(Title)({

@@ -11,24 +11,20 @@ interface Props {
 const WorkList = ({ imagesRef }: Props) => {
   return (
     <Wrapper>
-      {WORKS.map(({ title, image: { src, width, height } }, index) => {
-        const route = typeof title === 'string' ? title : title.en;
-
-        return (
-          <li
-            key={route}
-            ref={(el) => {
-              if (el) {
-                imagesRef.current[index] = el;
-              }
-            }}
-          >
-            <StyledLink href={`/work/${route}`} css={{ height }}>
-              <Image src={src} width={width} height={height} alt={`${title} 커버`} style={{ objectFit: 'cover' }} />
-            </StyledLink>
-          </li>
-        );
-      })}
+      {WORKS.map(({ id, title, image: { src, width, height } }, index) => (
+        <li
+          key={id}
+          ref={(el) => {
+            if (el) {
+              imagesRef.current[index] = el;
+            }
+          }}
+        >
+          <StyledLink href={`/work/${id}`} css={{ height }}>
+            <Image src={src} width={width} height={height} alt={`${title} 커버`} style={{ objectFit: 'cover' }} />
+          </StyledLink>
+        </li>
+      ))}
     </Wrapper>
   );
 };

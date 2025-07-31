@@ -37,4 +37,11 @@ const Styles = css`
     margin: 0;
     list-style: none;
   }
+
+  h1,
+  h2,
+  h3,
+  p {
+    margin: 0;
+  }
 `;
