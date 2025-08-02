@@ -49,10 +49,11 @@ jobs:
           script: |
             source ~/.bashrc
             cd /home/ubuntu/portfolio.v2
-            git pull origin main
+            git fetch origin
+            git reset --hard origin/main
             pnpm install
             pnpm build
-            pm2 restart portfolio.v2
+            pm2 restart portfolio.v2 || pm2 start ecosystem.config.js
 
       - name: Remove GitHub Actions IP
         if: always()
