@@ -47,6 +47,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SSH_KEY }}
           script: |
+            source ~/.bashrc
             cd /home/ubuntu/portfolio.v2
             git pull origin main
             pnpm install
