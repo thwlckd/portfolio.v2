@@ -42,5 +42,5 @@ const Wrapper = styled.ul({
 const StyledLink = styled(Link)({
   display: 'block',
   transition: 'box-shadow 0.2s ease',
-  ':hover': { boxShadow: '#747474 0px 7px 25px 0px;' },
+  ':hover': { boxShadow: '#747474 0px 7px 25px 0px' },
 });

@@ -10,15 +10,15 @@ const Introduction = () => {
         <TypeAnimation
           sequence={[
             '부드러운 인터렉션에 열광하는',
-            1000,
-            '일의 맥락을 아는 Maker,',
-            1000,
+            1500,
+            '일의 맥락을 보는 Maker,',
+            1500,
             '신뢰할 수 있는 동료,',
-            1000,
+            1500,
           ]}
           wrapper="span"
           cursor={true}
-          speed={1}
+          speed={20}
           repeat={Infinity}
         />
         <br />

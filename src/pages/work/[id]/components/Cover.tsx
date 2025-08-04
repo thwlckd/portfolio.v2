@@ -21,7 +21,7 @@ const Cover = ({ workId, workData }: Props) => {
   const springWidth = useTransform(springYProgress, [0, 1], [workData.image.width, width]);
   const springHeight = useTransform(springYProgress, [0, 1], [workData.image.height, height]);
   const offsetBottom = useTransform(springYProgress, [0, 1], [20, 0]);
-  const display = useTransform(springYProgress, [0, 0.6], ['flex', 'none']);
+  const opacity = useTransform(springYProgress, [0.6, 1], [1, 0]);
 
   const workIndex = WORKS.findIndex(({ id }) => id === workId);
   const title = isMultiLanguageTitle(workData.title) ? workData.title.ko : workData.title;
@@ -36,12 +36,14 @@ const Cover = ({ workId, workData }: Props) => {
             top: 0,
             left: '50%',
             transform: 'translateX(-50%)',
-            display,
+            display: 'flex',
             alignItems: 'center',
             width: '100%',
             maxWidth: BREAKPOINT.lg,
             height: '100vh',
             textAlign: 'center',
+            pointerEvents: 'none',
+            opacity,
           }}
         >
           <div

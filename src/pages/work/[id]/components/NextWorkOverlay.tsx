@@ -6,6 +6,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styled from '@emotion/styled';
 import { isMultiLanguageTitle } from '../../utils/isMultiLanguageTitle';
+import { useWindowSize } from 'usehooks-ts';
+import { useState } from 'react';
+import Flex from '@/shared/components/Flex';
 
 interface Props {
   show: boolean;
@@ -16,6 +19,8 @@ const NextWorkOverlay = ({ show, close }: Props) => {
   const workId = useRouter().query.id;
   const workIndex = (WORKS.findIndex(({ id }) => id === workId) + 1) % (WORKS.length - 1);
   const workData = workIndex === -1 ? null : WORKS[workIndex];
+  const { width, height } = useWindowSize({ debounceDelay: 200 });
+  const [overlaySize, setOverlaySize] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
 
   if (!workData) {
     return null;
@@ -38,23 +43,46 @@ const NextWorkOverlay = ({ show, close }: Props) => {
     <AnimatePresence>
       {show && (
         <motion.div
-          variants={{ show: { bottom: 20, opacity: 1 }, hide: { bottom: -20, opacity: 0 } }}
+          ref={(el) => {
+            if (el) {
+              setOverlaySize({ width: el.offsetWidth, height: el.offsetHeight });
+            }
+          }}
+          variants={{
+            show: { y: 0, opacity: 1 },
+            hide: { y: '50%', x: '-50%', opacity: 0 },
+          }}
           initial="hide"
           animate="show"
           exit="hide"
+          drag
+          dragConstraints={{
+            left: -width / 2,
+            right: width / 2 - overlaySize.width,
+            top: -height + overlaySize.height + 20,
+            bottom: 20,
+          }}
+          dragTransition={{ bounceStiffness: 100, bounceDamping: 20 }}
+          whileDrag={{ scale: 0.9, cursor: 'grabbing' }}
           style={{
             ...overlayStyle,
             width: coverSize.width,
           }}
         >
           <CloseButton onClick={close}>x</CloseButton>
-          <Image
-            src={workData.image.src}
-            width={coverSize.width}
-            height={coverSize.height}
-            alt={`${workData.title} 커버`}
-            css={{ borderRadius: 10 }}
-          />
+          <ImageWrapper width={coverSize.width} height={coverSize.height}>
+            <DragGuide justify="center" align="center" animate={{ opacity: [1, 0], transition: { delay: 3 } }}>
+              드래그할 수 있어요
+            </DragGuide>
+            <Image
+              src={workData.image.src}
+              width={coverSize.width}
+              height={coverSize.height}
+              alt={`${workData.title} 커버`}
+              draggable={false}
+            />
+          </ImageWrapper>
+
           <div>{`${workIndex + 1} / ${WORKS.length}`}</div>
           <div>{title}</div>
           <Link
@@ -102,7 +130,7 @@ export default NextWorkOverlay;
 const overlayStyle: MotionStyle = {
   position: 'fixed',
   left: '50%',
-  transform: 'translateX(-50%)',
+  bottom: 20,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -112,11 +140,31 @@ const overlayStyle: MotionStyle = {
   backgroundColor: 'rgba(180, 180, 180, 0.3)',
   borderRadius: 10,
   backdropFilter: 'blur(20px)',
+  boxShadow: 'rgba(116, 116, 116, 0.5) 0px 3px 15px 0px',
+  cursor: 'grab',
   [MQ.mobile]: {
     left: 20,
     width: 'calc(100% - 80px)',
   },
 };
+
+const ImageWrapper = styled.div<{ width: number; height: number }>(({ width, height }) => ({
+  position: 'relative',
+  width,
+  height,
+  borderRadius: 10,
+  overflow: 'hidden',
+}));
+
+const DragGuide = styled(motion(Flex))({
+  position: 'absolute',
+  width: '100%',
+  height: '100%',
+  backdropFilter: 'blur(5px)',
+  fontSize: 24,
+  color: '#fff',
+  mixBlendMode: 'difference',
+});
 
 const CloseButton = styled.button({
   position: 'absolute',
