@@ -3,6 +3,7 @@ import RootLayout from '@/shared/components/layout/RootLayout';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import 'normalize.css';
+import { OverlayProvider } from 'overlay-kit';
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
@@ -11,9 +12,11 @@ const App = ({ Component, pageProps }: AppProps) => {
         <title>hyub2</title>
       </Head>
       <GlobalStyle />
-      <RootLayout>
-        <Component {...pageProps} />
-      </RootLayout>
+      <OverlayProvider>
+        <RootLayout>
+          <Component {...pageProps} />
+        </RootLayout>
+      </OverlayProvider>
     </>
   );
 };
