@@ -1,3 +1,5 @@
+import { MQ } from '@/shared/constants/mediaQuery';
+import styled from '@emotion/styled';
 import { motion, MotionValue, useTransform } from 'motion/react';
 import { useEffect, useState } from 'react';
 
@@ -18,7 +20,8 @@ const ActiveImage = ({ y, imageSrc, animationDir }: Props) => {
   }, []);
 
   return (
-    <motion.div
+    <ImageEl
+      src={imageSrc}
       animate={backgroundAnimation}
       transition={{
         duration: 5,
@@ -26,20 +29,21 @@ const ActiveImage = ({ y, imageSrc, animationDir }: Props) => {
         repeatType: 'reverse',
         ease: 'easeInOut',
       }}
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        y,
-        width: '25%',
-        height,
-        backgroundImage: `url(${imageSrc})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        transition: 'background-image 0.2s ease',
-      }}
+      style={{ y, height }}
+      css={{}}
     />
   );
 };
 
 export default ActiveImage;
+
+const ImageEl = styled(motion.div)<{ src: string }>(({ src }) => ({
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  backgroundImage: `url(${src})`,
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'cover',
+  transition: 'background-image 0.2s ease',
+  [MQ.mobile]: { width: 40 },
+}));

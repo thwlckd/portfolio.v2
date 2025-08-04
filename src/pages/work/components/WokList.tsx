@@ -21,7 +21,7 @@ const WorkList = ({ imagesRef }: Props) => {
           }}
         >
           <StyledLink href={`/work/${id}`} css={{ height }}>
-            <Image src={src} width={width} height={height} alt={`${title} 커버`} style={{ objectFit: 'cover' }} />
+            <Image src={src} width={width} height={height} alt={`${title} 커버`} css={{ objectFit: 'cover' }} />
           </StyledLink>
         </li>
       ))}

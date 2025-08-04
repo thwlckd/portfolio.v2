@@ -5,6 +5,7 @@ import { WORKS } from '../../models/works';
 import Image from 'next/image';
 import Link from 'next/link';
 import styled from '@emotion/styled';
+import { isMultiLanguageTitle } from '../../utils/isMultiLanguageTitle';
 
 interface Props {
   show: boolean;
@@ -14,7 +15,13 @@ interface Props {
 const NextWorkOverlay = ({ show, close }: Props) => {
   const workId = useRouter().query.id;
   const workIndex = (WORKS.findIndex(({ id }) => id === workId) + 1) % (WORKS.length - 1);
-  const workData = WORKS[workIndex];
+  const workData = workIndex === -1 ? null : WORKS[workIndex];
+
+  if (!workData) {
+    return null;
+  }
+
+  const title = isMultiLanguageTitle(workData.title) ? workData.title.ko : workData.title;
   const imageRatio = workData.image.width >= workData.image.height ? 'row' : 'column';
   const coverSize =
     imageRatio === 'row'
@@ -26,10 +33,6 @@ const NextWorkOverlay = ({ show, close }: Props) => {
           width: 200,
           height: (workData.image.height / workData.image.width) * 200,
         };
-
-  if (!workData) {
-    return null;
-  }
 
   return (
     <AnimatePresence>
@@ -53,7 +56,7 @@ const NextWorkOverlay = ({ show, close }: Props) => {
             css={{ borderRadius: 10 }}
           />
           <div>{`${workIndex + 1} / ${WORKS.length}`}</div>
-          <div>{typeof workData.title === 'string' ? workData.title : workData.title.ko}</div>
+          <div>{title}</div>
           <Link
             href={`/work/${workData.id}`}
             scroll={false}

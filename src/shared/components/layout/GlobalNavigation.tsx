@@ -140,6 +140,7 @@ const DropdownMenu = styled(motion.ul)({
   backgroundColor: 'rgba(30, 30, 30, 0.3)',
   backdropFilter: 'blur(12px)',
   fontSize: 30,
+  pointerEvents: 'all',
 
   [MQ.mobile]: {
     paddingInline: 12,
@@ -172,6 +173,7 @@ const popupMenuStyle: MotionStyle = {
   left: '50%',
   transform: 'translateX(-50%)',
   overflow: 'hidden',
+  pointerEvents: 'none',
 };
 
 const Stretched = styled.span({

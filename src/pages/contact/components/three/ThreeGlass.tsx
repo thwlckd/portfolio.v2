@@ -1,5 +1,4 @@
 import { Canvas } from '@react-three/fiber';
-import { Stats } from '@react-three/drei';
 import Glass from './Glass';
 import styled from '@emotion/styled';
 
@@ -9,7 +8,6 @@ const GlassScene = () => {
       <Canvas camera={{ position: [0, 0, 10], fov: 50 }} dpr={1} gl={{ antialias: true }}>
         <directionalLight position={[0, 0, 1]} color="#ffffff" intensity={20} />
         <Glass />
-        <Stats />
       </Canvas>
     </SceneWrapper>
   );

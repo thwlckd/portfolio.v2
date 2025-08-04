@@ -1,4 +1,3 @@
-import Flex from '@/shared/components/Flex';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { motion, useScroll, useSpring, useTransform } from 'motion/react';
@@ -7,6 +6,7 @@ import { Work, WORKS } from '../../models/works';
 import { isMultiLanguageTitle } from '../../utils/isMultiLanguageTitle';
 import { useWindowSize } from 'usehooks-ts';
 import { MQ } from '@/shared/constants/mediaQuery';
+import { BREAKPOINT } from '@/shared/constants/breakpoint';
 
 interface Props {
   workId: string;
@@ -21,6 +21,7 @@ const Cover = ({ workId, workData }: Props) => {
   const springWidth = useTransform(springYProgress, [0, 1], [workData.image.width, width]);
   const springHeight = useTransform(springYProgress, [0, 1], [workData.image.height, height]);
   const offsetBottom = useTransform(springYProgress, [0, 1], [20, 0]);
+  const display = useTransform(springYProgress, [0, 0.6], ['flex', 'none']);
 
   const workIndex = WORKS.findIndex(({ id }) => id === workId);
   const title = isMultiLanguageTitle(workData.title) ? workData.title.ko : workData.title;
@@ -29,25 +30,53 @@ const Cover = ({ workId, workData }: Props) => {
   return (
     <>
       <div ref={stickyRef} css={{ position: 'relative', top: -200, height: '150vh', width: '100%' }}>
-        <Flex
-          justify="space-between"
-          css={{
-            position: 'sticky',
+        <motion.div
+          style={{
+            position: 'fixed',
             top: 0,
-            left: 0,
-            height: 0,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            display,
+            alignItems: 'center',
             width: '100%',
-            lineHeight: '100vh',
+            maxWidth: BREAKPOINT.lg,
+            height: '100vh',
             textAlign: 'center',
           }}
         >
-          <div>{workData.type}</div>
-          <div css={{ position: 'relative' }}>
+          <div
+            css={{
+              position: 'absolute',
+              left: 0,
+              [MQ.mobile]: {
+                left: '50%',
+                top: 40,
+                transform: 'translateX(-50%)',
+                fontSize: 14,
+              },
+            }}
+          >
+            {workData.type}
+          </div>
+          <div css={{ position: 'relative', width: '100%' }}>
             <WorkIndex>{`${workIndex + 1} / ${WORKS.length}`}</WorkIndex>
             <H1>{title}</H1>
           </div>
-          <div>{workData.date}</div>
-        </Flex>
+          <div
+            css={{
+              position: 'absolute',
+              right: 0,
+              [MQ.mobile]: {
+                left: '50%',
+                top: 60,
+                transform: 'translateX(-50%)',
+                fontSize: 12,
+              },
+            }}
+          >
+            {workData.date}
+          </div>
+        </motion.div>
       </div>
       <motion.div
         style={{
@@ -75,5 +104,5 @@ const WorkIndex = styled.div({
 
 const H1 = styled.h1({
   fontSize: 60,
-  [MQ.mobile]: { fontSize: 30 },
+  [MQ.mobile]: { fontSize: 40 },
 });

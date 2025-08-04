@@ -11,7 +11,7 @@ type Options = {
 const useIntersectWork = ({ imageEl }: Options) => {
   const mouseY = useMouseY();
   const { scrollY } = useScroll();
-  const [activeWork, setActiveWork] = useState<Work>();
+  const [activeWork, setActiveWork] = useState<Work>(WORKS[0]);
 
   const setIntersectWork = useMemo(
     () =>
@@ -30,7 +30,9 @@ const useIntersectWork = ({ imageEl }: Options) => {
   );
 
   useMotionValueEvent(mouseY, 'change', setIntersectWork);
-  useMotionValueEvent(scrollY, 'change', setIntersectWork);
+  useMotionValueEvent(scrollY, 'change', () => {
+    setIntersectWork(mouseY.get());
+  });
 
   return { mouseY, activeWork };
 };

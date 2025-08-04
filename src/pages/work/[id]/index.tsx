@@ -6,15 +6,18 @@ import { MQ } from '@/shared/constants/mediaQuery';
 import { BREAKPOINT } from '@/shared/constants/breakpoint';
 import styled from '@emotion/styled';
 import NextWorkOverlayAnchor from './components/NextWorkOverlayAnchor';
+import { isMultiLanguageTitle } from '../utils/isMultiLanguageTitle';
 
 const WorkDetailPage = () => {
-  const workId = useRouter().query.id;
-  const workData = WORKS.find(({ id }) => id === workId);
   const router = useRouter();
+  const workId = router.query.id;
+  const workData = WORKS.find(({ id }) => id === workId);
 
   if (!workData) {
     return null; // NOTE: workData가 없으면 404 redirect하기 때문에 항상 not nil을 보장한다
   }
+
+  const title = isMultiLanguageTitle(workData.title) ? workData.title.ko : workData.title;
 
   return (
     <Flex direction="column" align="center" justify="center">
@@ -27,7 +30,7 @@ const WorkDetailPage = () => {
       </BackButton>
       {typeof workId === 'string' && <Cover workId={workId} workData={workData} />}
       <ContextWrapper as="section" direction="column" align="flex-start" justify="center" gap={20}>
-        <div>{`프로젝트 명: ${typeof workData.title === 'string' ? workData.title : workData.title.ko}`}</div>
+        <div>{`프로젝트 명: ${title}`}</div>
         <div>{`프로젝트 종류: ${workData.type}`}</div>
         <div>{`프로젝트 설명(비즈니스 목표): ${workData.description.goal}`}</div>
         <div>{`프로젝트 임펙트(도전 과제): ${workData.description.impact}`}</div>

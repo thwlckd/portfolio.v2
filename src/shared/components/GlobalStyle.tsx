@@ -31,6 +31,7 @@ const Styles = css`
     padding: 0;
     background: transparent;
     cursor: pointer;
+    color: currentColor;
   }
 
   ul {

@@ -28,7 +28,7 @@ const Dice = () => {
   const diceRef = useRef<Group>(null);
   const boxRef = useRef<Mesh>(null);
   const screen = useScreenSize();
-  const scale = screen === 'mobile' ? 1 : screen === 'tablet' ? 1.3 : 1.8;
+  const scale = screen === 'pc' ? 1.8 : 1.3;
   const [spring, api] = useSpring(() => ({
     rotation: [0, 0, 0],
     config: { duration: 1500, easing: easings.easeOutSine },

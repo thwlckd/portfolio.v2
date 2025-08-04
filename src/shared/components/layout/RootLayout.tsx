@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { PropsWithChildren, useEffect } from 'react';
 import GlobalNavigation from './GlobalNavigation';
-import GlobalFooter from './GlobalFooter';
 import ThreeDice from './three/ThreeDice';
 import { useRouter } from 'next/router';
 import { useSetAtom } from 'jotai';
@@ -38,7 +37,6 @@ const RootLayout = ({ children }: PropsWithChildren) => {
           {children}
         </MainWrapper>
       </AnimatePresence>
-      <GlobalFooter />
     </Layout>
   );
 };
