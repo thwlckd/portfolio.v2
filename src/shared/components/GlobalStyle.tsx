@@ -24,6 +24,7 @@ const Styles = css`
   a {
     text-decoration: none;
     color: currentColor;
+    -webkit-appearance: none;
   }
 
   button {
