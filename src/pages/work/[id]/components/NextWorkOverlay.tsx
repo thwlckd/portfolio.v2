@@ -63,7 +63,7 @@ const NextWorkOverlay = ({ show, close }: Props) => {
             bottom: 20,
           }}
           dragTransition={{ bounceStiffness: 100, bounceDamping: 20 }}
-          whileDrag={{ scale: 0.9, cursor: 'grabbing' }}
+          whileTap={{ scale: 0.9, cursor: 'grabbing' }}
           style={{
             ...overlayStyle,
             width: coverSize.width,

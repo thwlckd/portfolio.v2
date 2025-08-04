@@ -4,7 +4,7 @@ import { AnimatePresence, motion, MotionStyle } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const GlobalNavigation = () => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
@@ -12,6 +12,13 @@ const GlobalNavigation = () => {
   const router = useRouter();
   const currentPage = router.pathname.split('/')[1] || 'home';
   const rollingText = isHovered ? (isOpenMenu ? 'close' : 'menu') : currentPage;
+
+  useEffect(
+    function closeOnRouting() {
+      setIsOpenMenu(false);
+    },
+    [router],
+  );
 
   return (
     <>
