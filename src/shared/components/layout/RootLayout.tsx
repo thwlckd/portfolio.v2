@@ -7,6 +7,8 @@ import { useRouter } from 'next/router';
 import { useSetAtom } from 'jotai';
 import { layoutFilteredAtom } from '@/shared/atoms/layoutFilteredAtom';
 import { AnimatePresence, motion } from 'motion/react';
+import { BREAKPOINT } from '@/shared/constants/breakpoint';
+import { MQ } from '@/shared/constants/mediaQuery';
 
 const RootLayout = ({ children }: PropsWithChildren) => {
   const router = useRouter();
@@ -54,5 +56,6 @@ const MainWrapper = styled(motion.main)({
   marginInline: 'auto',
   padding: '200px 40px 0',
   minHeight: 'calc(100vh - 200px)',
-  maxWidth: 1000,
+  maxWidth: BREAKPOINT.lg,
+  [MQ.mobile]: { paddingInline: 20 },
 });

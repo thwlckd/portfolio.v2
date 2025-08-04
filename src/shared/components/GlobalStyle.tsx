@@ -30,6 +30,7 @@ const Styles = css`
     border: none;
     padding: 0;
     background: transparent;
+    cursor: pointer;
   }
 
   ul {
