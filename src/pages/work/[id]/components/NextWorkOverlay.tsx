@@ -17,7 +17,7 @@ interface Props {
 
 const NextWorkOverlay = ({ show, close }: Props) => {
   const workId = useRouter().query.id;
-  const workIndex = (WORKS.findIndex(({ id }) => id === workId) + 1) % (WORKS.length - 1);
+  const workIndex = (WORKS.findIndex(({ id }) => id === workId) + 1) % WORKS.length;
   const workData = workIndex === -1 ? null : WORKS[workIndex];
   const { width, height } = useWindowSize({ debounceDelay: 200 });
   const [overlaySize, setOverlaySize] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
@@ -50,7 +50,7 @@ const NextWorkOverlay = ({ show, close }: Props) => {
           }}
           variants={{
             show: { y: 0, opacity: 1 },
-            hide: { y: '50%', x: '-50%', opacity: 0 },
+            hide: { y: '50%', opacity: 0 },
           }}
           initial="hide"
           animate="show"
@@ -63,16 +63,14 @@ const NextWorkOverlay = ({ show, close }: Props) => {
             bottom: 20,
           }}
           dragTransition={{ bounceStiffness: 100, bounceDamping: 20 }}
-          whileTap={{ scale: 0.9, cursor: 'grabbing' }}
-          style={{
-            ...overlayStyle,
-            width: coverSize.width,
-          }}
+          whileDrag={{ scale: 0.9 }}
+          whileTap={{ cursor: 'grabbing' }}
+          style={{ ...overlayStyle, width: coverSize.width }}
         >
           <CloseButton onClick={close}>x</CloseButton>
           <ImageWrapper width={coverSize.width} height={coverSize.height}>
             <DragGuide justify="center" align="center" animate={{ opacity: [1, 0], transition: { delay: 3 } }}>
-              드래그할 수 있어요
+              드래그할 수 있어요.
             </DragGuide>
             <Image
               src={workData.image.src}
@@ -131,6 +129,7 @@ const overlayStyle: MotionStyle = {
   position: 'fixed',
   left: '50%',
   bottom: 20,
+  x: '-50%',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -167,6 +166,7 @@ const DragGuide = styled(motion(Flex))({
 });
 
 const CloseButton = styled.button({
+  zIndex: 5,
   position: 'absolute',
   top: -2,
   right: -2,

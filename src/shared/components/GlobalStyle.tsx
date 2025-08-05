@@ -46,5 +46,6 @@ const Styles = css`
   h3,
   p {
     margin: 0;
+    word-break: keep-all;
   }
 `;
