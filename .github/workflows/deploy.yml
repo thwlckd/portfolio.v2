@@ -46,14 +46,15 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ubuntu
           key: ${{ secrets.SSH_KEY }}
+          command_timeout: 100m
           script: |
             source ~/.bashrc
             cd /home/ubuntu/portfolio.v2
             git fetch origin
             git reset --hard origin/main
-            pnpm install
+            pnpm install --frozen-lockfile
             pnpm build
-            pm2 restart portfolio.v2 || pm2 start ecosystem.config.js
+            pm2 reload portfolio.v2 || pm2 start ecosystem.config.js
 
       - name: Remove GitHub Actions IP
         if: always()

@@ -6,9 +6,9 @@ module.exports = {
       script: 'pnpm',
       args: 'start',
       interpreter: 'none',
+      watch: false,
       exec_mode: 'cluster',
-      watch: true,
-      instances: 0,
+      instances: 'max',
       env: {
         NODE_ENV: 'production',
       },
