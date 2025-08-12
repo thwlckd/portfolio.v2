@@ -58,7 +58,6 @@ const StyledH2 = styled.h2({
 });
 
 const StyledA = styled.a({
-  textDecoration: 'underline',
   fontSize: 20,
   lineHeight: 1.5,
   [MQ.mobile]: { fontSize: 16 },

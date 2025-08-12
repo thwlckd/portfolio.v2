@@ -5,8 +5,8 @@ module.exports = {
       cwd: '/home/ubuntu/portfolio.v2',
       script: 'pnpm',
       args: 'start',
-      interpreter: 'none',
       watch: false,
+      autorestart: true,
       exec_mode: 'cluster',
       instances: 'max',
       env: {

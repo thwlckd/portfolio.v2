@@ -41,6 +41,7 @@ const ImageEl = styled(motion.div)<{ src: string }>(({ src }) => ({
   position: 'fixed',
   top: 0,
   left: 0,
+  width: '25%',
   backgroundImage: `url(${src})`,
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'cover',

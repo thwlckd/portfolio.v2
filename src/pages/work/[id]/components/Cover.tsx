@@ -106,5 +106,5 @@ const WorkIndex = styled.div({
 
 const H1 = styled.h1({
   fontSize: 60,
-  [MQ.mobile]: { fontSize: 40 },
+  [MQ.nonPc]: { fontSize: 40 },
 });
