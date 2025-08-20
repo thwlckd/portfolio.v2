@@ -85,7 +85,6 @@ const NextWorkOverlay = ({ show, close }: Props) => {
           <div>{title}</div>
           <Link
             href={`/work/${workData.id}`}
-            scroll={false}
             css={{
               position: 'relative',
               display: 'flex',
