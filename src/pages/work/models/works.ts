@@ -25,7 +25,7 @@ export const WORKS: Work[] = [
     },
     type: 'Toss Service',
     date: '2025.01 - 2025.05',
-    image: { src: '/images/work/tossfeed.jpg', width: 250, height: 170 },
+    image: { src: '/images/work/tossfeed.webp', width: 250, height: 170 },
     description: {
       goal: '금융 콘텐츠 플랫폼, 토스피드를 유지보수 개발합니다. 토스 커뮤니티의 소식 및 금융 콘텐츠를 효과적으로 소개하여 웹 사이트 내 리텐션을 늘리고, 기타 서비스로의 인플로우를 늘리기 위한 고민들이 녹아있습니다.',
       impacts: [
@@ -41,7 +41,7 @@ export const WORKS: Work[] = [
     title: { ko: '데이터 리포트', en: 'Data Report' },
     type: 'Toss Service',
     date: '2024.12 - 2025.02',
-    image: { src: '/images/work/data-report.jpg', width: 300, height: 150 },
+    image: { src: '/images/work/data-report.webp', width: 300, height: 150 },
     description: {
       goal: "10주년을 맞이한 토스가 만들어온 변화와 혁신을 에디션으로 공개합니다. 월별 금융 생활 데이터를 통해 일상 속 금융 트렌드를 분석하는 '달마다, 금융', 지난 10년간 토스가 아껴준 사용자의 시간과 비용을 조명하는 '토스 넘버스', 두 에디션을 인터렉티브한 참여형 웹 사이트로 구성합니다.",
       impacts: [
@@ -58,7 +58,7 @@ export const WORKS: Work[] = [
     title: { ko: '청소년 도박 근절 캠페인', en: 'Youth Gambling Prevention Campaign' },
     type: 'Toss Service',
     date: '2024.9 - 2024.10',
-    image: { src: '/images/work/stop-gambling.png', width: 300, height: 150 },
+    image: { src: '/images/work/stop-gambling.webp', width: 300, height: 150 },
     description: {
       goal: '토스와 경찰청이 함께 진행한 청소년 도박 근절 캠페인 소개 웹 사이트입니다. 토스, 인스타그램, 유튜브 등의 앱을 통해 공개되는 사이트로, 다양한 모바일 기기의 인앱 브라우저에서 테스트가 선행되었습니다.',
       impacts: [
@@ -77,7 +77,7 @@ export const WORKS: Work[] = [
     title: 'SLASH 24',
     type: 'Toss Service',
     date: '2024.9',
-    image: { src: '/images/work/slash24.png', width: 140, height: 300 },
+    image: { src: '/images/work/slash24.webp', width: 140, height: 300 },
     description: {
       goal: "'No Limit: 풀지 못할 문제는 없다' 슬로건의 24년 개발자 컨퍼런스의 웹 사이트를 2인 개발로 진행했습니다. 오프라인 행사인 만큼 사전 신청부터 이후 컨텐츠 아카이빙까지, 약 4 단계의 타임라인을 잘 나누어 병목 없이 순차적 개발 및 오픈이 중요한 프로젝트였습니다. 행사 사전 신청 이후 아카이빙을 주로 개발했습니다.",
       impacts: [],
@@ -90,7 +90,7 @@ export const WORKS: Work[] = [
     title: { ko: '머니그라피 서체', en: 'Moneygraphy Font' },
     type: 'Toss Service',
     date: '2024.11',
-    image: { src: '/images/work/moneygraphy-font.png', width: 280, height: 170 },
+    image: { src: '/images/work/moneygraphy-font.webp', width: 280, height: 170 },
     description: {
       goal: "토스의 유튜브 콘텐츠 채널, '머니그라피'에서 공개한 폰트를 웹에서 직접 체험할 수 있는 에디터를 만들었습니다. 사이트에 방문하여 Pixel·Rounded 두 폰트를 무료로 사용하실 수 있습니다.",
       impacts: [],

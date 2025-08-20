@@ -1,15 +1,15 @@
 import { animated, easings, useSpring } from '@react-spring/three';
 import { Text3D } from '@react-three/drei';
-import { ThreeEvent } from '@react-three/fiber';
 import { useEffect, useState } from 'react';
 import { FrontSide } from 'three';
+import useClickWithoutDrag from './useClickWithoutDrag';
 
 interface Props {
   route: string;
   textColor: string;
   position: [number, number, number];
   rotation: [number, number, number];
-  onClick?: (e: ThreeEvent<MouseEvent>) => void;
+  onClick: (e: MouseEvent) => void;
 }
 
 const DiceFace = ({ route, textColor, position, rotation, onClick }: Props) => {
@@ -20,6 +20,7 @@ const DiceFace = ({ route, textColor, position, rotation, onClick }: Props) => {
     color: textColor,
     config: { tension: 300, friction: 10, easing: easings.easeInOutBack },
   }));
+  const eventHandlers = useClickWithoutDrag({ onClick });
 
   useEffect(
     function animateOnHover() {
@@ -35,7 +36,7 @@ const DiceFace = ({ route, textColor, position, rotation, onClick }: Props) => {
   return (
     <group position={position} rotation={rotation}>
       <mesh
-        onClick={onClick}
+        {...eventHandlers}
         onPointerOver={(e) => {
           e.stopPropagation();
           setHovered(true);

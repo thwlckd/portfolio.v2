@@ -21,14 +21,14 @@ const AboutPage = () => {
           <PixelImage
             images={[
               {
-                src: '/images/about1.png',
+                src: '/images/about1.webp',
                 width: isMobile ? 200 : 300,
                 height: isMobile ? 267 : 400,
                 x: (canvasWidth) => (isMobile ? canvasWidth * 0.5 : canvasWidth * 0.65),
                 y: isMobile ? 10 : 30,
               },
               {
-                src: '/images/about2.png',
+                src: '/images/about2.webp',
                 width: isMobile ? 200 : 300,
                 height: isMobile ? 200 : 300,
                 x: (canvasWidth) => canvasWidth * 0.1,
