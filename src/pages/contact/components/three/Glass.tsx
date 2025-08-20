@@ -6,7 +6,7 @@ import RollingButton from '@/shared/components/RollingButton';
 import { copyClipboard } from '@/shared/utils/copyClipboard';
 
 const Glass = () => {
-  const texture = useTexture('/images/contact-bg.png');
+  const texture = useTexture('/images/contact-bg.webp');
   const { ref } = useRotateByPointer();
 
   return (
@@ -32,6 +32,12 @@ const Glass = () => {
       >
         <Flex direction="column" justify="center" gap={10} css={{ paddingInline: 30, height: '100%' }}>
           <Flex direction="column" gap={1}>
+            <Head>GitHub</Head>
+            <a href="https://github.com/thwlckd" target="_blank">
+              github.com/thwlckd
+            </a>
+          </Flex>
+          <Flex direction="column" gap={1}>
             <Head>E-Mail</Head>
             <RollingButton
               default="thwlckd@gmail.com"
@@ -42,6 +48,7 @@ const Glass = () => {
               }}
             />
           </Flex>
+
           <Flex direction="column" gap={1}>
             <Head>Location</Head>
             <div>Seoul</div>

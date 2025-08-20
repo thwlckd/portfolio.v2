@@ -1,3 +1,4 @@
+import useTouchDevice from '@/shared/hooks/useTouchDevice';
 import { useFrame } from '@react-three/fiber';
 import { useEffect, useRef, useState } from 'react';
 import { MathUtils, Object3D } from 'three';
@@ -5,8 +6,13 @@ import { MathUtils, Object3D } from 'three';
 const useRotateByPointer = <T extends Object3D>() => {
   const ref = useRef<T>(null);
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
+  const isTouchDevice = useTouchDevice();
 
   useEffect(() => {
+    if (isTouchDevice) {
+      return;
+    }
+
     const handlePointerMove = (e: PointerEvent) => {
       const x = (e.clientX / window.innerWidth) * 2 - 1; // NOTE: three pointer 범위 -> -1 ~ 1
       const y = -(e.clientY / window.innerHeight) * 2 + 1;
@@ -17,12 +23,16 @@ const useRotateByPointer = <T extends Object3D>() => {
     window.addEventListener('pointermove', handlePointerMove);
 
     return () => {
+      if (isTouchDevice) {
+        return;
+      }
+
       window.removeEventListener('pointermove', handlePointerMove);
     };
-  }, []);
+  }, [isTouchDevice]);
 
   useFrame(() => {
-    if (!ref.current) {
+    if (!ref.current || isTouchDevice) {
       return;
     }
 
