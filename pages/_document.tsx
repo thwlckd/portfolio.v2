@@ -7,6 +7,11 @@ const Document = () => {
       <Head>
         <meta name="description" content="hyub2 archive" />
         <link rel="icon" href="/svg/hyub.svg" />
+        <meta property="og:title" content="hyub2" />
+        <meta property="og:site_name" content="hyub2" />
+        <meta property="og:description" content="hyub2 archive" />
+        <meta property="og:url" content="https://hyub.xyz" />
+        <meta property="og:image" content="/images/og.webp" />
 
         {/* Google tag (gtag.js) */}
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-VBCXVMB45G" />
