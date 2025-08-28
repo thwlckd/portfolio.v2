@@ -1,66 +1,66 @@
-name: deploy
+# name: deploy
 
-on:
-  push:
-    branches: ['main']
-  pull_request:
-    branches: ['main']
+# on:
+#   push:
+#     branches: ['main']
+#   pull_request:
+#     branches: ['main']
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+#     steps:
+#       - name: Checkout repo
+#         uses: actions/checkout@v4
 
-      - name: Use Node.js 22
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
+#       - name: Use Node.js 22
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: 22
 
-      - name: Get Public IP
-        id: ip
-        run: |
-          response=$(curl -s http://checkip.amazonaws.com/)
-          echo "ipv4=$response" >> "$GITHUB_OUTPUT"
+#       - name: Get Public IP
+#         id: ip
+#         run: |
+#           response=$(curl -s http://checkip.amazonaws.com/)
+#           echo "ipv4=$response" >> "$GITHUB_OUTPUT"
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
+#       - name: Configure AWS credentials
+#         uses: aws-actions/configure-aws-credentials@v4
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: ap-northeast-2
 
-      - name: Add GitHub Actions IP to Security Group
-        run: |
-          aws ec2 authorize-security-group-ingress \
-            --group-id ${{ secrets.SECURITY_GROUP_ID }} \
-            --protocol tcp \
-            --port 22 \
-            --cidr ${{ steps.ip.outputs.ipv4 }}/32
+#       - name: Add GitHub Actions IP to Security Group
+#         run: |
+#           aws ec2 authorize-security-group-ingress \
+#             --group-id ${{ secrets.SECURITY_GROUP_ID }} \
+#             --protocol tcp \
+#             --port 22 \
+#             --cidr ${{ steps.ip.outputs.ipv4 }}/32
 
-      - name: SSH to EC2 and Deploy
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ubuntu
-          key: ${{ secrets.SSH_KEY }}
-          command_timeout: 100m
-          script: |
-            source ~/.bashrc
-            cd /home/ubuntu/portfolio.v2
-            git fetch origin
-            git reset --hard origin/main
-            pnpm install --frozen-lockfile
-            pnpm build
-            pm2 reload portfolio.v2 || pm2 start ecosystem.config.js
+#       - name: SSH to EC2 and Deploy
+#         uses: appleboy/ssh-action@v1
+#         with:
+#           host: ${{ secrets.SSH_HOST }}
+#           username: ubuntu
+#           key: ${{ secrets.SSH_KEY }}
+#           command_timeout: 100m
+#           script: |
+#             source ~/.bashrc
+#             cd /home/ubuntu/portfolio.v2
+#             git fetch origin
+#             git reset --hard origin/main
+#             pnpm install --frozen-lockfile
+#             pnpm build
+#             pm2 reload portfolio.v2 || pm2 start ecosystem.config.js
 
-      - name: Remove GitHub Actions IP
-        if: always()
-        run: |
-          aws ec2 revoke-security-group-ingress \
-            --group-id ${{ secrets.SECURITY_GROUP_ID }} \
-            --protocol tcp \
-            --port 22 \
-            --cidr ${{ steps.ip.outputs.ipv4 }}/32
+#       - name: Remove GitHub Actions IP
+#         if: always()
+#         run: |
+#           aws ec2 revoke-security-group-ingress \
+#             --group-id ${{ secrets.SECURITY_GROUP_ID }} \
+#             --protocol tcp \
+#             --port 22 \
+#             --cidr ${{ steps.ip.outputs.ipv4 }}/32
