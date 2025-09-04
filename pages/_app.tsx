@@ -3,9 +3,10 @@ import RootLayout from '@/shared/components/layout/RootLayout';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { OverlayProvider } from 'overlay-kit';
-import { ErrorBoundary } from '@sentry/nextjs';
-import 'normalize.css';
 import RedirectionBoundary from '@/shared/components/ErrorBoundary/RedirectionBoundary';
+import ErrorBoundary from '@/shared/components/ErrorBoundary';
+import { captureException } from '@sentry/nextjs';
+import 'normalize.css';
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
@@ -14,7 +15,11 @@ const App = ({ Component, pageProps }: AppProps) => {
         <title>hyub2</title>
       </Head>
       <GlobalStyle />
-      <ErrorBoundary>
+      <ErrorBoundary
+        onError={(e) => {
+          captureException(e);
+        }}
+      >
         <RedirectionBoundary>
           <OverlayProvider>
             <RootLayout>

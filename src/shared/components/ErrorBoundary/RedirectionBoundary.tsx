@@ -13,9 +13,7 @@ const RedirectionBoundary = ({ children, ...props }: Props) => {
       {...props}
       ignoreError={(e) => !Redirection.isSSRRedirectError(e)}
       onError={async (e: unknown) => {
-        console.log(11, Redirection.isSSRRedirectError(e));
         if (Redirection.isSSRRedirectError(e)) {
-          console.log(22);
           router.replace(e.to);
         }
       }}

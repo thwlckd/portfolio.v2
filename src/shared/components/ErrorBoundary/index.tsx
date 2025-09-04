@@ -17,16 +17,6 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
     return { error };
   }
 
-  resetError() {
-    const { error } = this.state;
-
-    if (error !== null) {
-      this.props.onReset?.();
-
-      this.setState(initialState);
-    }
-  }
-
   componentDidCatch(error: Error, info: ErrorInfo) {
     if (this.props.ignoreError?.(error)) {
       throw error;
@@ -65,5 +55,15 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
     }
 
     return childToRender;
+  }
+
+  resetError() {
+    const { error } = this.state;
+
+    if (error !== null) {
+      this.props.onReset?.();
+
+      this.setState(initialState);
+    }
   }
 }

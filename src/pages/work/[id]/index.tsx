@@ -6,71 +6,68 @@ import { MQ } from '@/shared/constants/mediaQuery';
 import { BREAKPOINT } from '@/shared/constants/breakpoint';
 import styled from '@emotion/styled';
 import NextWorkOverlayAnchor from './components/NextWorkOverlayAnchor';
-import { Redirection } from '@/shared/utils/Redirection';
 
 const WorkDetailPage = () => {
   const router = useRouter();
   const workId = router.query.id;
   const workData = WORKS.find(({ id }) => id === workId);
 
-  throw Redirection.to('/');
-
   if (!workData) {
-    null; // NOTE: workData가 없으면 404 redirect하기 때문에 항상 not nil을 보장한다
+    return null; // NOTE: workData가 없으면 404 redirect하기 때문에 항상 not nil을 보장한다
   }
 
-  // return (
-  //   <Flex direction="column" align="center" justify="center">
-  //     <BackButton
-  //       onClick={() => {
-  //         router.back();
-  //       }}
-  //     >
-  //       ←
-  //     </BackButton>
-  //     {typeof workId === 'string' && <Cover workId={workId} workData={workData} />}
-  //     <ContextWrapper as="section" direction="column" align="flex-start" justify="center" gap={40}>
-  //       <div>
-  //         <H3>서비스 개요</H3>
-  //         <p>{workData.description.goal}</p>
-  //       </div>
-  //       {workData.description.impacts.length > 0 && (
-  //         <div>
-  //           <H3>도전 과제</H3>
-  //           <Flex as="ul" direction="column" gap={10} css={{ listStyle: 'disc', paddingLeft: 15 }}>
-  //             {workData.description.impacts.map((impact) => (
-  //               <li key={impact}>
-  //                 <p>{impact}</p>
-  //               </li>
-  //             ))}
-  //           </Flex>
-  //         </div>
-  //       )}
-  //       <div>
-  //         <H3>기술 스택</H3>
-  //         <p>{workData.skills.join(', ')}</p>
-  //       </div>
-  //       <div>
-  //         <H3>링크</H3>
-  //         <Flex as="ul" direction="column" gap={10}>
-  //           {workData.websites.map((link) => (
-  //             <li key={link}>
-  //               <a
-  //                 href={link}
-  //                 target="_blank"
-  //                 rel="noreferrer noopener"
-  //                 css={{ display: 'inline-block', wordBreak: 'break-word' }}
-  //               >
-  //                 {link}
-  //               </a>
-  //             </li>
-  //           ))}
-  //         </Flex>
-  //       </div>
-  //     </ContextWrapper>
-  //     <NextWorkOverlayAnchor />
-  //   </Flex>
-  // );
+  return (
+    <Flex direction="column" align="center" justify="center">
+      <BackButton
+        onClick={() => {
+          router.back();
+        }}
+      >
+        ←
+      </BackButton>
+      {typeof workId === 'string' && <Cover workId={workId} workData={workData} />}
+      <ContextWrapper as="section" direction="column" align="flex-start" justify="center" gap={40}>
+        <div>
+          <H3>서비스 개요</H3>
+          <p>{workData.description.goal}</p>
+        </div>
+        {workData.description.impacts.length > 0 && (
+          <div>
+            <H3>도전 과제</H3>
+            <Flex as="ul" direction="column" gap={10} css={{ listStyle: 'disc', paddingLeft: 15 }}>
+              {workData.description.impacts.map((impact) => (
+                <li key={impact}>
+                  <p>{impact}</p>
+                </li>
+              ))}
+            </Flex>
+          </div>
+        )}
+        <div>
+          <H3>기술 스택</H3>
+          <p>{workData.skills.join(', ')}</p>
+        </div>
+        <div>
+          <H3>링크</H3>
+          <Flex as="ul" direction="column" gap={10}>
+            {workData.websites.map((link) => (
+              <li key={link}>
+                <a
+                  href={link}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  css={{ display: 'inline-block', wordBreak: 'break-word' }}
+                >
+                  {link}
+                </a>
+              </li>
+            ))}
+          </Flex>
+        </div>
+      </ContextWrapper>
+      <NextWorkOverlayAnchor />
+    </Flex>
+  );
 };
 
 export default WorkDetailPage;
