@@ -5,6 +5,7 @@ import Head from 'next/head';
 import { OverlayProvider } from 'overlay-kit';
 import { ErrorBoundary } from '@sentry/nextjs';
 import 'normalize.css';
+import RedirectionBoundary from '@/shared/components/ErrorBoundary/RedirectionBoundary';
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
@@ -14,11 +15,13 @@ const App = ({ Component, pageProps }: AppProps) => {
       </Head>
       <GlobalStyle />
       <ErrorBoundary>
-        <OverlayProvider>
-          <RootLayout>
-            <Component {...pageProps} />
-          </RootLayout>
-        </OverlayProvider>
+        <RedirectionBoundary>
+          <OverlayProvider>
+            <RootLayout>
+              <Component {...pageProps} />
+            </RootLayout>
+          </OverlayProvider>
+        </RedirectionBoundary>
       </ErrorBoundary>
     </>
   );
