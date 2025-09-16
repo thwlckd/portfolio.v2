@@ -15,6 +15,7 @@ const eslintConfig = [
     rules: {
       'jsx-a11y/control-has-associated-label': 'warn',
       '@typescript-eslint/no-explicit-any': 'warn',
+      '@next/next/no-html-link-for-pages': 'warn',
     },
   },
 ];

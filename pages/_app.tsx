@@ -6,6 +6,7 @@ import { OverlayProvider } from 'overlay-kit';
 import RedirectionBoundary from '@/shared/components/ErrorBoundary/RedirectionBoundary';
 import ErrorBoundary from '@/shared/components/ErrorBoundary';
 import { captureException } from '@sentry/nextjs';
+import Error from '@/shared/components/Error';
 import 'normalize.css';
 
 const App = ({ Component, pageProps }: AppProps) => {
@@ -19,6 +20,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         onError={(e) => {
           captureException(e);
         }}
+        fallbackRender={Error}
       >
         <RedirectionBoundary>
           <OverlayProvider>

@@ -23,7 +23,7 @@ CustomErrorComponent.getInitialProps = async (ctx: NextPageContext) => {
     ctx?.res.writeHead(302, { location: redirectTo });
     ctx?.res.end();
 
-    return {};
+    return { statusCode: 302 };
   }
 
   await Sentry.captureUnderscoreErrorException(ctx);
