@@ -1,3 +1,4 @@
+import { RedirectionOptions } from '@/shared/utils/Redirection';
 import * as Sentry from '@sentry/nextjs';
 import { NextPageContext } from 'next';
 import Error from 'next/error';
@@ -7,13 +8,27 @@ const CustomErrorComponent = (props: ErrorProps) => {
   return <Error statusCode={props.statusCode} />;
 };
 
-CustomErrorComponent.getInitialProps = async (contextData: NextPageContext) => {
-  // In case this is running in a serverless function, await this in order to give Sentry
-  // time to send the error before the lambda exits
-  await Sentry.captureUnderscoreErrorException(contextData);
+type ContextError =
+  | ((Error & {
+      statusCode?: number;
+    }) &
+      RedirectionOptions)
+  | null;
 
-  // This will contain the status code of the response
-  return Error.getInitialProps(contextData);
+CustomErrorComponent.getInitialProps = async (ctx: NextPageContext) => {
+  const redirectTo = (ctx.err as ContextError)?.to;
+
+  if (ctx.res && redirectTo) {
+    Sentry.captureException(ctx, { tags: { redirect: redirectTo } });
+    ctx?.res.writeHead(302, { location: redirectTo });
+    ctx?.res.end();
+
+    return { statusCode: 302 };
+  }
+
+  await Sentry.captureUnderscoreErrorException(ctx);
+
+  return Error.getInitialProps(ctx);
 };
 
 export default CustomErrorComponent;
