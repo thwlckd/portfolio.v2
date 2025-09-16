@@ -67,7 +67,7 @@ jobs:
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/portfolio.v2:${{github.run_id}}
             docker stop portfolio.v2 || true
             docker rm portfolio.v2 || true
-            docker run -d --name portfolio.v2 -p 3000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/portfolio.v2:${{github.run_id}}
+            docker run -d --restart always --name portfolio.v2 -p 3000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/portfolio.v2:${{github.run_id}}
 
       - name: Remove GitHub Actions IP
         if: always()
