@@ -26,15 +26,16 @@ const WorkDetailPage = () => {
         ←
       </BackButton>
       {typeof workId === 'string' && <Cover workId={workId} workData={workData} />}
-      <ContextWrapper as="section" direction="column" align="flex-start" justify="center" gap={40}>
+      <ContextWrapper as="section" direction="column" align="flex-start" justify="center" gap={50}>
         <div>
-          <H3>서비스 개요</H3>
+          <H3>프로젝트 개요</H3>
           <p>{workData.description.goal}</p>
         </div>
+
         {workData.description.impacts.length > 0 && (
           <div>
             <H3>도전 과제</H3>
-            <Flex as="ul" direction="column" gap={10} css={{ listStyle: 'disc', paddingLeft: 15 }}>
+            <Flex as="ul" direction="column" gap={20} css={{ listStyle: 'disc', paddingLeft: 15 }}>
               {workData.description.impacts.map((impact) => (
                 <li key={impact}>
                   <p>{impact}</p>
@@ -43,13 +44,26 @@ const WorkDetailPage = () => {
             </Flex>
           </div>
         )}
+
+        {workData.squad && (
+          <div>
+            <H3>스쿼드</H3>
+            <p>
+              {Object.entries(workData.squad)
+                .map(([key, value]) => `${key} ${value}`)
+                .join(', ')}
+            </p>
+          </div>
+        )}
+
         <div>
           <H3>기술 스택</H3>
           <p>{workData.skills.join(', ')}</p>
         </div>
+
         <div>
           <H3>링크</H3>
-          <Flex as="ul" direction="column" gap={10}>
+          <Flex as="ul" direction="column" gap={20}>
             {workData.websites.map((link) => (
               <li key={link}>
                 <a
@@ -76,7 +90,7 @@ const ContextWrapper = styled(Flex)({
   padding: '100px 0 200px',
   width: '100%',
   whiteSpace: 'pre-wrap',
-  lineHeight: 1.7,
+  lineHeight: 1.8,
   fontSize: 18,
 });
 

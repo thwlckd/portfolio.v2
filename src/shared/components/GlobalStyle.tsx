@@ -22,9 +22,9 @@ const Styles = css`
   }
 
   a {
-    text-decoration: none;
     color: currentColor;
     -webkit-appearance: none;
+    text-decoration-skip-ink: none;
   }
 
   button {
