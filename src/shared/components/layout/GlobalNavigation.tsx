@@ -87,7 +87,9 @@ const GlobalNavigation = () => {
             <DropdownMenu onClick={() => setIsOpenMenu(false)}>
               {NAV_LINKS.map(({ href, label }) => (
                 <li key={href}>
-                  <Link href={href}>{label}</Link>
+                  <Link href={href} css={{ textDecoration: 'none' }}>
+                    {label}
+                  </Link>
                 </li>
               ))}
             </DropdownMenu>
