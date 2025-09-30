@@ -62,11 +62,7 @@ export const WORKS: Work[] = [
       'GA',
       'Sentry',
     ],
-    websites: [
-      'https://github.com/thwlckd/lambda-image-optimize',
-      'https://static.hyub.xyz/pepe.jpg?width=300&height=300&format=webp&type=cover',
-      'https://static.hyub.xyz/pepe.jpg?width=500&height=400&format=avif&type=contain&quality=100',
-    ],
+    websites: ['https://github.com/thwlckd/portfolio.v2'],
   },
   {
     id: 'tossfeed',
